@@ -1,0 +1,41 @@
+﻿{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json", 
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "71db5de8-6b7d-437c-b973-0e13f81619e8",
+  "packageName": "TeamsGroupCalendar.io.github.atlasoutdoor",
+  "developer": {
+    "name": "web@atlasoutdoor.com",
+    "websiteUrl": "https://atlasoutdoor.github.io/TeamsGroupCalendar/app/todo.html",
+    "privacyUrl": "https://atlasoutdoor.github.io/TeamsGroupCalendar/app/todo.html",
+    "termsOfUseUrl": "https://atlasoutdoor.github.io/TeamsGroupCalendar/app/todo.html"
+  },
+  "name": {
+    "short": "Group Calendar",
+    "full": "Group Calendar"
+  },
+  "description": {
+    "short": "Tab for displaying an Group Calendar in Javascript Calendar Control",
+    "full": "Tab for displaying an Group Calendar in Javascript Calendar Control"
+  },
+   "icons": {
+    "outline": "Outline32.png", 
+    "color": "Colour192.png" 
+  },
+  "accentColor": "#333333",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://atlasoutdoor.github.io/TeamsGroupCalendar/app/config.html",
+      "canUpdateConfiguration": true,
+      "scopes": [ "team" ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+     "atlasoutdoor.github.io"
+   
+  ]
+}
