@@ -86,7 +86,7 @@ You need to change the Id,PackageName and configurationURL setting in the manife
   	  "manifestVersion": "1.3",
       "version": "1.0.0",
       "id": "71db5de8-6b7d-437c-b973-0e13f81619e8",
-      "packageName": "TeamsGroupCalendar.io.github.gscales",
+      "packageName": "TeamsGroupCalendar.io.github.atlasoutdoor",
     configurableTabs": [
     {
       "configurationUrl": "https://atlasoutdoor.github.io/TeamsGroupCalendar/app/config.html",
