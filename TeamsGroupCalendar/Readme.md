@@ -41,8 +41,8 @@ The application files for a Teams Tab application needs to be hosted on a web se
 
 [https://login.microsoftonline.com/common/adminconsent?client_id=71db5de8-6b7d-437c-b973-0e13f81619e8](https://login.microsoftonline.com/common/adminconsent?client_id=71db5de8-6b7d-437c-b973-0e13f81619e8)
 
-You then need to download the Manifest Zip file from [https://github.com/gscales/atlasoutdoor.github.io/raw/master/TeamsGroupCalendar/TabPackage/app.zip
-](https://github.com/gscales/atlasoutdoor.github.io/raw/master/TeamsGroupCalendar/TabPackage/app.zip)
+You then need to download the Manifest Zip file from [https://github.com/atlasoutdoor/atlasoutdoor.github.io/raw/master/TeamsGroupCalendar/TabPackage/app.zip
+](https://github.com/atlasoutdoor/atlasoutdoor.github.io/raw/master/TeamsGroupCalendar/TabPackage/app.zip)
 then follow the Custom App installation process described below
 
 
@@ -78,7 +78,7 @@ Modify the manifest of the Application registration to enable the Implicit authe
   	"oauth2AllowImplicitFlow": true,
     "oauth2AllowUrlPathMatching": false,
 
-Change the tab application m** Manifest** (your version of [https://github.com/gscales/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/TabPackage/manifest.json](https://github.com/gscales/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/TabPackage/manifest.json))
+Change the tab application m** Manifest** (your version of [https://github.com/atlasoutdoor/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/TabPackage/manifest.json](https://github.com/atlasoutdoor/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/TabPackage/manifest.json))
 
 You need to change the Id,PackageName and configurationURL setting in the manifest to your own unique ApplicationId and URL where the config.html page is hosted
 
@@ -95,7 +95,7 @@ You need to change the Id,PackageName and configurationURL setting in the manife
     }
     ],
 
-Modify you hosted version of the https://github.com/gscales/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/app/Config/appconfig.js file. Change the clientId to the applicationId from your application registration and the hostRoot to the root of your webhost.
+Modify you hosted version of the https://github.com/atlasoutdoor/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/app/Config/appconfig.js file. Change the clientId to the applicationId from your application registration and the hostRoot to the root of your webhost.
 
      const getConfig = () => {
   	 var config = {
@@ -107,7 +107,7 @@ Modify you hosted version of the https://github.com/gscales/atlasoutdoor.github.
   	 return config;
 	}
 
-Create a Zip file of all the files in the https://github.com/gscales/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/TabPackage directory and then use that in the Custom App Installation process described above.
+Create a Zip file of all the files in the https://github.com/atlasoutdoor/atlasoutdoor.github.io/blob/master/TeamsGroupCalendar/TabPackage directory and then use that in the Custom App Installation process described above.
 
 
 
