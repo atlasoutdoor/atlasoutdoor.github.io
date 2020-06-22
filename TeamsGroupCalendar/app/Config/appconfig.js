@@ -1,6 +1,6 @@
 const getConfig = () => {
    var config = {
-        clientId : "71db5de8-6b7d-437c-b973-0e13f81619e8",
+        clientId : "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
         redirectUri : "/TeamsGroupCalendar/app/silent-end.html",
         authwindow :  "/TeamsGroupCalendar/app/auth.html",
 	hostRoot: "https://atlasoutdoor.github.io",
