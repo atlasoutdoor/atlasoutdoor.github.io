@@ -22,7 +22,7 @@
     "outline": "Outline32.png", 
     "color": "Colour192.png" 
   },
-  "accentColor": "#333333",
+  "accentColor": "#630C0D",
   "configurableTabs": [
     {
       "configurationUrl": "https://atlasoutdoor.github.io/TeamsGroupCalendar/app/config.html",
