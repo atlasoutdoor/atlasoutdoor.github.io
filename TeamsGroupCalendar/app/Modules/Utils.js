@@ -27,15 +27,19 @@ const Authuser = (upn,appconfig) => {
                 config.extraQueryParameters = "scope=openid+profile";
             }
             let authContext = new AuthenticationContext(config);
+            console.log("successfully made authContext")
             let user = authContext.getCachedUser();
+            console.log("got user");
             if (user) {
-                if (user.userName !== upn) {
+                if (user.userName.toLowerCase() !== upn.toLowerCase()) {
                     // User doesn't match, clear the cache
                     authContext.clearCache();
                 }
             }
             // Get the id token (which is the access token for resource = clientId)
             let token = authContext.getCachedToken(config.clientId);
+            console.log("token:", token);
+
             if (token) {
                 authContext.acquireToken("https://graph.microsoft.com", function (error, idtoken) {
                     if (error || !idtoken) {
@@ -45,6 +49,7 @@ const Authuser = (upn,appconfig) => {
                         resolve(idtoken);
                 });
             } else {
+                console.log("no token! renewing...");
                 // No token, or token is expired
                 authContext._renewIdToken(function (err, idToken) {
                     if (err) {
@@ -63,6 +68,7 @@ const Authuser = (upn,appconfig) => {
                             }
                         });
                     } else {
+                        console.log("Token Renewal succeeded");
                         authContext.acquireToken("https://graph.microsoft.com", function (error, idtoken) {
                             if (error || !idtoken) {
                                reject(error);
@@ -81,6 +87,7 @@ const Authuser = (upn,appconfig) => {
 }
 
 const GetGroupMembers = (idToken, teamscontext) => {
+    console.log("Getting group members with idToken: " + idToken);
     return new Promise(
         (resolve, reject) => {
             GroupId = teamscontext.groupId;
@@ -93,12 +100,14 @@ const GetGroupMembers = (idToken, teamscontext) => {
             }).done(function (item) {
                 resolve(item);
             }).fail(function (error) {
+                console.log("GetGroupMembers error: ", error);
                 reject(error);
             });
         }
     );
 }
 const GetSchedule = (idToken, GroupMembers, displayNameMap) => {
+    console.log("Getting schedule...");
     return new Promise(
         (resolve, reject) => {
             var SchPost = {};
@@ -153,6 +162,7 @@ const GetSchedule = (idToken, GroupMembers, displayNameMap) => {
 }
 
 const GetUserPhotos = (idToken,GroupMembers) => {
+    console.log("Getting user photos...");
     var photoRequestMap = {};
     for (index = 0; index < GroupMembers.value.length; ++index) {
         var entry = GroupMembers.value[index];
@@ -205,6 +215,7 @@ function addDays(date, days) {
 
 
 const buildScheduleTable = (Schedules,displayNameMap) => {
+    console.log("Building schedule table...");
     var JSONData = [];   
     for (index = 0; index < Schedules.value.length; ++index) {
         var entry = Schedules.value[index].scheduleItems;
