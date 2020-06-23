@@ -29,9 +29,9 @@ const Authuser = (upn,appconfig) => {
             let authContext = new AuthenticationContext(config);
             console.log("successfully made authContext")
             let user = authContext.getCachedUser();
-            console.log("got user");
+            console.log("got user", user);
             if (user) {
-                if (user.userName.toLowerCase() !== upn.toLowerCase()) {
+                if (user.userName !== upn) {
                     // User doesn't match, clear the cache
                     authContext.clearCache();
                 }
