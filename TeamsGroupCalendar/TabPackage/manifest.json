@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "id": "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
   "packageName": "TeamsGroupCalendar.io.github.atlasoutdoor",
   "developer": {
