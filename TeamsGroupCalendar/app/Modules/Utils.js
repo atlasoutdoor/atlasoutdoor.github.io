@@ -88,6 +88,7 @@ const Authuser = (upn,appconfig) => {
 
 const GetGroupMembers = (idToken, teamscontext) => {
     console.log("Getting group members with idToken: " + idToken);
+    console.log("teamscontext: ", teamscontext);
     return new Promise(
         (resolve, reject) => {
             GroupId = teamscontext.groupId;
