@@ -92,6 +92,9 @@ const GetGroupMembers = (idToken, teamscontext) => {
     return new Promise(
         (resolve, reject) => {
             GroupId = teamscontext.groupId;
+            if (!GroupId) {
+                GroupId = "19a79608-753b-4ff8-81dc-f12783060fe0" // sales team
+            }
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
