@@ -183,7 +183,7 @@ html, body {
                 // $('#wrap').show();
             }
             catch (error) {
-                var html = "Error Getting Group Calendar :<b> " + error + "</b></br>";
+                var html = "Error Getting Group Calendar : <br><pre>" + JSON.stringify(error) + "</pre><br>";
                 $('#calendar').append(html);
                 $('#preloader').fadeOut('slow',function(){$(this).remove();});
                 console.log(error);
