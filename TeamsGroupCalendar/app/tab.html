@@ -152,7 +152,6 @@ html, body {
                 $('#ProgresLoader').show();
                 let Token = await Authuser(teamscontext.upn, appConfig);
                 let GroupMembers = await GetGroupMembers(Token, teamscontext);
-                console.log("There is " + GroupMembers.length() + " group members.")
                 var displayNameMap = {};
                 let Schedules = await GetSchedule(Token, GroupMembers, displayNameMap);
                 let Legend = buildLegend(displayNameMap);
