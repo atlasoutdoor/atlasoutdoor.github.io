@@ -3,11 +3,12 @@
     <title>Group Calendar Silent Authentication Login</title>
 </head>
 <body>
+    <button id="btnLogin" onclick="login()" style="display:none;">Signin to Office365</button>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
     <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
     <script src="/TeamsGroupCalendar/app/Config/appconfig.js"></script>
     <script type="text/javascript">
-            var appConfig = getConfig();
             microsoftTeams.initialize();
             
             let queryParams = getQueryParameters();
@@ -18,27 +19,42 @@
             let tenantId = queryParams["tenantId"] || "common";
             
             let config = {
-                    tenant: tenantId, 
-                    clientId: appConfig.clientId,
-                    redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html", 
-                    cacheLocation: "localStorage",
-                    navigateToLoginRequestUrl: false,
-                    endpoints: {
-                        "https://graph.microsoft.com": "https://graph.microsoft.com"
-                    },
-                    extraQueryParameter: "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint)
-                };
+                tenant: tenantId, 
+                clientId: "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
+                redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html",  
+                cacheLocation: "localStorage",
+                navigateToLoginRequestUrl: false,
+            };
+
             if (loginHint) {
-                    config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint);
+                config.extraQueryParameter = "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint);
+            } else {
+                config.extraQueryParameter = "scope=openid+profile";
+            }
+
+            let authContext = new AuthenticationContext(config);
+
+            let user = authContext.getCachedUser();
+
+            if(user && (user.profile.iod !== userObjectId)) {
+                console.log("user doesn't match, clearing auth cache...");
+                authContext.clearCache();
+            }
+
+            authContext.acquireToken(config.clientId, function(errDesc, token, err, tokenType) {
+                if(token) {
+                    if (tokenType !== authContext.CONSTANTS.ID_TOKEN) {
+                        console.log("ADAL.js bud: requested id_token, got " + tokenType);
+                        token = authContext.getCachedToken(config.clientId);
+                    }
+                    showUserInfo(token);
                 } else {
-                    config.extraQueryParameters = "scope=openid+profile";
+                    console.log("Failed to get ID token silently: " + errDesc);
+                    $("#btnLogin").show();
                 }
+            })
+
             microsoftTeams.getContext(function (context) {
-                
-                // Setup extra query parameters for ADAL
-                // - openid and profile scope adds profile information to the id_token
-                // - login_hint provides the expected user name
-                
 
                 // Use a custom displayCall function to add extra query parameters to the url before navigating to it
                 config.displayCall = function (urlNavigate) {
@@ -53,6 +69,17 @@
                 let authContext = new AuthenticationContext(config);
                 authContext.login();
             });
+            $(function() {
+                $("#btnLogin").click(function() {
+                    if (window.authContext) {
+                        authContext.login();    
+                    }
+                });
+            });
+
+            function showUserInfo(userObject) {
+                console.log("UserInfo: ", userObject);
+            }
     </script>
 </body>
 </html>
