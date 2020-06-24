@@ -147,11 +147,12 @@ html, body {
         
         async function GetGroupCalendar() {
             try {
-                console.log("**UPN" + teamscontext.login_hint);
+                console.log("**UPN" + teamscontext.upn);
                 appConfig = getConfig();
                 $('#ProgresLoader').show();
-                let Token = await Authuser(teamscontext.login_hint, appConfig);
+                let Token = await Authuser(teamscontext.upn, appConfig);
                 let GroupMembers = await GetGroupMembers(Token, teamscontext);
+                console.log("GroupMembers: ", GroupMembers);
                 var displayNameMap = {};
                 let Schedules = await GetSchedule(Token, GroupMembers, displayNameMap);
                 let Legend = buildLegend(displayNameMap);
