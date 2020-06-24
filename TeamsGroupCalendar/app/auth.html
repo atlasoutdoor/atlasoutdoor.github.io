@@ -47,7 +47,7 @@
                         console.log("ADAL.js bud: requested id_token, got " + tokenType);
                         token = authContext.getCachedToken(config.clientId);
                     }
-                    showUserInfo(token);
+                    console.log("token: ", token);
                 } else {
                     console.log("Failed to get ID token silently: " + errDesc);
                     $("#btnLogin").show();
