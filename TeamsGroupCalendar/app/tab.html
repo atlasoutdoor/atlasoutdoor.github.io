@@ -109,11 +109,12 @@ html, body {
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
     <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.css' rel='stylesheet' />
     <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/jquery.min.js"></script>
+
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/moment.min.js"></script>
     <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
     <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
     <script src="/TeamsGroupCalendar/app/Modules/Utils.js"></script>
+    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/jquery.min.js"></script>
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.js"></script>
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/randomcolor.js"></script>
     <script>
@@ -151,6 +152,7 @@ html, body {
                 $('#ProgresLoader').show();
                 let Token = await Authuser(teamscontext.upn, appConfig);
                 let GroupMembers = await GetGroupMembers(Token, teamscontext);
+                console.log("There is " + GroupMembers.length() + " group members.")
                 var displayNameMap = {};
                 let Schedules = await GetSchedule(Token, GroupMembers, displayNameMap);
                 let Legend = buildLegend(displayNameMap);
