@@ -44,7 +44,7 @@ const Authuser = (upn,appconfig) => {
             let user = authContext.getCachedUser();
             console.log("got user", user);
             if (user) {
-                if (user.profile.oid !== upn) {
+                if (user.userName == upn) {
                     authContext.clearCache();
                 }
             }
