@@ -44,8 +44,9 @@
                 }
             };
 
-            let authContext = new AuthenticationContext(config);
+            //let authContext = new AuthenticationContext(config);
 
+            /*
             let user = authContext.getCachedUser();
 
             if(user && (user.upn !== userObjectId)) {
@@ -65,14 +66,12 @@
                     $("#btnLogin").show();
                 }
             });
-
+            */
             microsoftTeams.getContext(function (context) {
 
-                // Use a custom displayCall function to add extra query parameters to the url before navigating to it
-                
+                let authContext = new AuthenticationContext(config);
+                authContext.login(); 
             });
-            //let authContext = new AuthenticationContext(config);
-            authContext.login();
     </script>
 </body>
 </html>
