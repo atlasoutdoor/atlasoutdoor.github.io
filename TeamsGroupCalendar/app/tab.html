@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="js">
-
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Atlas Calendar</title>
     <style>
         img {
@@ -113,33 +111,30 @@ html, body {
     <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/moment.min.js"></script>
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
     <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
-    <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js"></script>
     <script src="/TeamsGroupCalendar/app/Modules/Utils.js"></script>
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/jquery.min.js"></script>
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.js"></script>
     <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/randomcolor.js"></script>
     <script>
         window.addEventListener('error', function(event) {
-            console.log("error: ", event);
+            console.log('error: ', event);
         });
     </script>
 </head>
 
 <body>
     <div id="preloader"></div>
-    <div id='wrap'>
-        <div id='calendar-legend'>
-
-
-        </div>
+    <div id="wrap">
+        <div id="calendar-legend"></div>
     </div>
-    <div id='calendar'></div>
+    <div id="calendar"></div>
 
 
-    <script type="text/javascript">
-        // Initialize microsoft teams tab library
+    <script>
         microsoftTeams.initialize();
+        
         $('#ProgresLoader').hide();
         //Client object to pass around
         var Client = {};
@@ -149,7 +144,7 @@ html, body {
             teamscontext = context;
             GetGroupCalendar();
         });
-        //
+        
         async function GetGroupCalendar() {
             try {
                 console.log("**UPN" + teamscontext.upn);
@@ -174,7 +169,7 @@ html, body {
                     navLinks: true, // can click day/week names to navigate views
                     editable: true,
                     
-                    eventLimit: true, // allow "more" link when too many events
+                    eventLimit: true,
                     events: Events
 
                 });
@@ -195,7 +190,7 @@ html, body {
             }
         };
     </script>
-    <input id="ShowBoard" type="button" class="button" value="Retry Group Calendar" onclick="GetGroupCalendar();" />
+    <input id="ShowBoard" type="button" class="button" value="Retry Calendar" onclick="GetGroupCalendar();" />
 </body>
 
 </html>

@@ -3,32 +3,42 @@
     <title>Group Calendar Silent Authentication Login</title>
 </head>
 <body>
-    <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js"></script>
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
     <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
     <script src="/TeamsGroupCalendar/app/Config/appconfig.js"></script>
     <script type="text/javascript">
             var appConfig = getConfig();
             microsoftTeams.initialize();
-            // Get the tab context, and use the information to navigate to Azure AD login page
-            microsoftTeams.getContext(function (context) {
-                // ADAL.js configuration
-                let config = {
+            
+            let queryParams = getQueryParameters();
+            let loginHint = queryParams["loginHint"];
+            let userObjectId = queryParams["userObjectId"];
+            // Use the tenant id of the current organization. For guest users, we want an access token for
+            // the tenant we are currently in, not the home tenant of the guest.
+            let tenantId = queryParams["tenantId"] || "common";
+            
+            let config = {
+                    tenant: tenantId, 
                     clientId: appConfig.clientId,
-                    redirectUri: window.location.origin + appConfig.redirectUri, 
+                    redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html", 
                     cacheLocation: "localStorage",
                     navigateToLoginRequestUrl: false,
                     endpoints: {
                         "https://graph.microsoft.com": "https://graph.microsoft.com"
-                    }
+                    },
+                    extraQueryParameter: "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint)
                 };
-                // Setup extra query parameters for ADAL
-                // - openid and profile scope adds profile information to the id_token
-                // - login_hint provides the expected user name
-                if (context.upn) {
-                    config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(context.upn);
+            if (loginHint) {
+                    config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint);
                 } else {
                     config.extraQueryParameters = "scope=openid+profile";
                 }
+            microsoftTeams.getContext(function (context) {
+                
+                // Setup extra query parameters for ADAL
+                // - openid and profile scope adds profile information to the id_token
+                // - login_hint provides the expected user name
+                
 
                 // Use a custom displayCall function to add extra query parameters to the url before navigating to it
                 config.displayCall = function (urlNavigate) {

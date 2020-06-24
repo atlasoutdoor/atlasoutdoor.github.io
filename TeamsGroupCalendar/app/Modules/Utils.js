@@ -1,3 +1,14 @@
+function getQueryParameters() {
+    let queryParams = {};
+    location.search.substr(1).split("&").forEach(function(item) {
+        let s = item.split("="),
+            k = s[0],
+            v = s[1] && decodeURIComponent(s[1]);
+        queryParams[k] = v;
+    });
+    return queryParams;
+}
+
 const getConfig = () => {
    var config = {
         clientId : "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
@@ -9,12 +20,14 @@ const getConfig = () => {
    return config;
 }
 
+let appconfig = getConfig();
+
 const Authuser = (upn,appconfig) => {
     return new Promise(
         (resolve, reject) => {
             let config = {
-                clientId: appConfig.clientId,
-                redirectUri: window.location.origin + appConfig.redirectUri,       // This should be in the list of redirect uris for the AAD app
+                clientId: appconfig.clientId,
+                redirectUri: window.location.origin + appconfig.redirectUri,
                 cacheLocation: "localStorage",
                 navigateToLoginRequestUrl: false,
                 endpoints: {
@@ -31,14 +44,27 @@ const Authuser = (upn,appconfig) => {
             let user = authContext.getCachedUser();
             console.log("got user", user);
             if (user) {
-                if (user.userName !== upn) {
-                    // User doesn't match, clear the cache
+                if (user.profile.oid !== upn) {
                     authContext.clearCache();
                 }
             }
             // Get the id token (which is the access token for resource = clientId)
-            let token = authContext.getCachedToken(config.clientId);
+            let token = authContext.getCachedToken(appconfig.clientId);
             console.log("token:", token);
+    
+    /*authContext.acquireToken(appconfig.clientId, function (errDesc, token, err, tokenType) {
+                if (token) {
+                    console.log("token:", token);
+                    if (tokenType !== authContext.CONSTANTS.ID_TOKEN) {
+                        console.log("ADAL.js bug: requested id_token, got " + tokenType);
+                        token = authContext.getCachedToken(appconfig.clientId);
+                    }
+                    showUserInformation(token);
+                } else {
+                    console.log("Failed to get id token silently: " + errDesc);
+                    
+                }
+            });*/
 
             if (token) {
                 authContext.acquireToken("https://graph.microsoft.com", function (error, idtoken) {
@@ -55,7 +81,7 @@ const Authuser = (upn,appconfig) => {
                     if (err) {
                         console.log("Renewal failed: " + err);
                         microsoftTeams.authentication.authenticate({
-                            url: window.location.origin + appConfig.authwindow,
+                            url: window.location.origin + "/TeamsGroupCalendar/app/auth.html",
                             width: 400,
                             height: 400,
                             successCallback: function (t) {
@@ -64,6 +90,8 @@ const Authuser = (upn,appconfig) => {
                                 resolve(token);
                             },
                             failureCallback: function (err) {
+                                console.log("Login failed: " + err);
+                                if (err === "CancelledByUser" || err === "FailedToOpenWindow") {console.log("Login was blocked by popup blocker or canceled by user.");}
                                   reject(err);
                             }
                         });
@@ -80,10 +108,7 @@ const Authuser = (upn,appconfig) => {
                 });
             }
 
-
-
-        }
-        );
+        });
 }
 
 const GetGroupMembers = (idToken, teamscontext) => {
