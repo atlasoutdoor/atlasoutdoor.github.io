@@ -24,6 +24,9 @@
                 redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html",  
                 cacheLocation: "localStorage",
                 navigateToLoginRequestUrl: false,
+                endpoints: {
+                        "https://graph.microsoft.com": "https://graph.microsoft.com"
+                    }
             };
 
             if (loginHint) {
@@ -32,11 +35,20 @@
                 config.extraQueryParameter = "scope=openid+profile";
             }
 
+            config.displayCall = function (urlNavigate) {
+                if (urlNavigate) {
+                    if (config.extraQueryParameters) {
+                        urlNavigate += "&" + config.extraQueryParameters;
+                    }
+                    window.location.replace(urlNavigate);
+                }
+            };
+
             let authContext = new AuthenticationContext(config);
 
             let user = authContext.getCachedUser();
 
-            if(user && (user.profile.iod !== userObjectId)) {
+            if(user && (user.upn !== userObjectId)) {
                 console.log("user doesn't match, clearing auth cache...");
                 authContext.clearCache();
             }   
@@ -52,19 +64,12 @@
                     console.log("Failed to get ID token silently: " + errDesc);
                     $("#btnLogin").show();
                 }
-            })
+            });
 
             microsoftTeams.getContext(function (context) {
 
                 // Use a custom displayCall function to add extra query parameters to the url before navigating to it
-                config.displayCall = function (urlNavigate) {
-                    if (urlNavigate) {
-                        if (config.extraQueryParameters) {
-                            urlNavigate += "&" + config.extraQueryParameters;
-                        }
-                        window.location.replace(urlNavigate);
-                    }
-                }
+                
             });
             //let authContext = new AuthenticationContext(config);
             authContext.login();
