@@ -19,7 +19,7 @@
             let tenantId = queryParams["tenantId"] || "common";
             
             let config = {
-                tenant: tenantId, 
+                //tenant: tenantId, 
                 clientId: "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
                 redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html",  
                 cacheLocation: "localStorage",
@@ -39,7 +39,7 @@
             if(user && (user.profile.iod !== userObjectId)) {
                 console.log("user doesn't match, clearing auth cache...");
                 authContext.clearCache();
-            }
+            }   
 
             authContext.acquireToken(config.clientId, function(errDesc, token, err, tokenType) {
                 if(token) {
@@ -72,7 +72,7 @@
             $(function() {
                 $("#btnLogin").click(function() {
                     if (window.authContext) {
-                        authContext.login();    
+                        authContext.login();
                     }
                 });
             });

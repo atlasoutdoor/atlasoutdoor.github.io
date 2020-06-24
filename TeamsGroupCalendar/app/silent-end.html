@@ -8,12 +8,26 @@
     <script type="text/javascript">
             microsoftTeams.initialize();
             // ADAL.js configuration
+            let queryParams = getQueryParameters();
+            let loginHint = queryParams["loginHint"];
+            let userObjectId = queryParams["userObjectId"];
+            // Use the tenant id of the current organization. For guest users, we want an access token for
+            // the tenant we are currently in, not the home tenant of the guest.
+            let tenantId = queryParams["tenantId"] || "common";
+            
             let config = {
+                tenant: tenantId, 
                 clientId: "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
-                redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html",   
+                redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html",  
                 cacheLocation: "localStorage",
                 navigateToLoginRequestUrl: false,
             };
+
+            if (loginHint) {
+                config.extraQueryParameter = "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint);
+            } else {
+                config.extraQueryParameter = "scope=openid+profile";
+            }
 
             let authContext = new AuthenticationContext(config);
 
