@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
     <title>Group Calendar Silent Authentication Login</title>
 </head>
@@ -65,21 +65,9 @@
                         window.location.replace(urlNavigate);
                     }
                 }
-                // Navigate to the AzureAD login page
-                let authContext = new AuthenticationContext(config);
-                authContext.login();
             });
-            $(function() {
-                $("#btnLogin").click(function() {
-                    if (window.authContext) {
-                        authContext.login();
-                    }
-                });
-            });
-
-            function showUserInfo(userObject) {
-                console.log("UserInfo: ", userObject);
-            }
+            //let authContext = new AuthenticationContext(config);
+            authContext.login();
     </script>
 </body>
 </html>
