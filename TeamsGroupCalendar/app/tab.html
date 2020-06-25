@@ -142,16 +142,16 @@ html, body {
         let teamscontext = "";
         microsoftTeams.getContext(function (context) {
             teamscontext = context;
-            GetGroupCalendar();
+            GetGroupCalendar(context);
         });
         
-        async function GetGroupCalendar() {
+        async function GetGroupCalendar(ctx) {
             try {
-                console.log("**UPN" + teamscontext.upn);
+                console.log("**UPN" + ctx.upn);
                 appConfig = getConfig();
                 $('#ProgresLoader').show();
-                let Token = await Authuser(teamscontext.upn, appConfig);
-                let GroupMembers = await GetGroupMembers(Token, teamscontext);
+                let Token = await Authuser(ctx.upn, appConfig);
+                let GroupMembers = await GetGroupMembers(Token, ctx);
                 console.log("GroupMembers: ", GroupMembers);
                 var displayNameMap = {};
                 let Schedules = await GetSchedule(Token, GroupMembers, displayNameMap);
@@ -180,9 +180,10 @@ html, body {
                 // $('#wrap').show();
             }
             catch (error) {
-                var html = "Error Getting Group Calendar : <br><pre>" + JSON.stringify(error) + "</pre><br>";
+                var html = "Error Getting Group Calendar : <br><pre>" + JSON.stringify(error) + "</pre><br>context: <pre>"+JSON.stringify(ctx)+"</pre>";
                 $('#calendar').append(html);
                 $('#preloader').fadeOut('slow',function(){$(this).remove();});
+                
                 console.log(error);
             } finally {
                 //$('#ProgresLoader').hide();
