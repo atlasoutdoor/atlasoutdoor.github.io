@@ -147,6 +147,7 @@ const GetSchedule = (idToken, GroupMembers, displayNameMap) => {
                 var dnMapValue = {};
                 dnMapValue.displayName = entry.displayName;
                 var initials = "";
+                console.log("entry: ", entry);
                 if(entry.givenName.length > 0){
                     initials = entry.givenName.slice(0,1);
                 }
