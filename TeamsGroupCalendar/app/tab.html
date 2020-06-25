@@ -147,7 +147,7 @@ html, body {
         
         async function GetGroupCalendar(ctx) {
             try {
-                console.log("**UPN" + ctx.upn);
+                console.log("**UPN: " + ctx.upn);
                 appConfig = getConfig();
                 $('#ProgresLoader').show();
                 let Token = await Authuser(ctx.upn, appConfig);

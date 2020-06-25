@@ -111,12 +111,12 @@ const Authuser = (upn,appconfig) => {
         });
 }
 
-const GetGroupMembers = (idToken, teamscontext) => {
+const GetGroupMembers = (idToken, ctx) => {
     console.log("Getting group members with idToken: " + idToken);
-    console.log("teamscontext: ", teamscontext);
+    console.log("Context: ", ctx);
     return new Promise(
         (resolve, reject) => {
-            GroupId = teamscontext.groupId;
+            GroupId = ctx.groupId;
             if (!GroupId) {
                 GroupId = "19a79608-753b-4ff8-81dc-f12783060fe0" // sales team
             }
