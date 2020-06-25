@@ -2,6 +2,22 @@
 <html>
 <head>
     <title>Atlas Calendar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
+    <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.css' rel='stylesheet' />
+    <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
+    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/moment.min.js"></script>
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
+    <script src="/TeamsGroupCalendar/app/Modules/Utils.js"></script>
+    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/jquery.min.js"></script>
+    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/randomcolor.js"></script>
     <style>
         img {
             border-radius: 50%;
@@ -102,21 +118,6 @@ html, body {
   }
 </style>
 
-
-    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
-    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
-    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
-    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
-    <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.css' rel='stylesheet' />
-    <link href='/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-
-    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/moment.min.js"></script>
-    <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
-    <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
-    <script src="/TeamsGroupCalendar/app/Modules/Utils.js"></script>
-    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/jquery.min.js"></script>
-    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-    <script src="/TeamsGroupCalendar/app/fullcalendar/3.9.0/randomcolor.js"></script>
     <script>
         window.addEventListener('error', function(event) {
             console.log('error: ', event);
@@ -165,13 +166,16 @@ html, body {
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay,listWeek'
                     },
+                    aspectRatio: 1.8,
                     height: 800,
                     themeSystem: 'bootstrap4',
-                    navLinks: true, // can click day/week names to navigate views
+                    navLinks: true,
                     editable: true,
-                    
+                    selectable: true,
+                    selectHelper: true,
                     eventLimit: true,
-                    events: Events
+                    events: Events,
+                    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 
                 });
                 console.log("Done Auth " + GroupMembers);
