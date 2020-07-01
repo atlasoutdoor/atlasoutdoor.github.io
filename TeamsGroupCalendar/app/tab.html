@@ -72,7 +72,7 @@
   width: 100%;
   height: 100%;
   overflow: visible;
-  background: #333 url('/TeamsGroupCalendar/app/images/loading.gif') no-repeat center center;
+  background: #e8e8e8 url('images/loading.gif') no-repeat center center;
 }
         
  
@@ -167,7 +167,7 @@ html, body {
                         right: 'month,agendaWeek,agendaDay,listWeek'
                     },
                     aspectRatio: 1.8,
-                    height: 800,
+                    height: '100%',
                     themeSystem: 'bootstrap4',
                     navLinks: true,
                     editable: true,
@@ -175,6 +175,7 @@ html, body {
                     selectHelper: true,
                     eventLimit: true,
                     events: Events,
+                    resourceAreaHeaderContent: 'Employee',
                     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 
                 });
