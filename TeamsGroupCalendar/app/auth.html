@@ -3,76 +3,46 @@
     <title>Group Calendar Silent Authentication Login</title>
 </head>
 <body>
-    <button id="btnLogin" onclick="login()" style="display:none;">Signin to Office365</button>
-    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-    <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js"></script>
-    <script src="https://unpkg.com/adal-angular@1.0.17/dist/adal.min.js"></script>
-    <script src="/TeamsGroupCalendar/app/Modules/Utils.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js" integrity="sha384-SNENyRfvDvybst1u0LawETYF6L5yMx5Ya1dIqWoG4UDTZ/5UAMB15h37ktdBbyFh" crossorigin="anonymous"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js" integrity="sha384-lIk8T3uMxKqXQVVfFbiw0K/Nq+kt1P3NtGt/pNexiDby2rKU6xnDY8p16gIwKqgI" crossorigin="anonymous"></script>
+    <script src="/TeamsGroupCalendar/app/Config/appconfig.js"></script>
     <script type="text/javascript">
+            var appConfig = getConfig();
             microsoftTeams.initialize();
-            
-            let queryParams = getQueryParameters();
-            let loginHint = queryParams["loginHint"];
-            let userObjectId = queryParams["userObjectId"];
-            // Use the tenant id of the current organization. For guest users, we want an access token for
-            // the tenant we are currently in, not the home tenant of the guest.
-            let tenantId = queryParams["tenantId"] || "common";
-            
-            let config = {
-                //tenant: tenantId, 
-                clientId: "7fc9230c-fcd2-47fb-a2a3-6fb9a5ecda62",
-                redirectUri: window.location.origin + "/TeamsGroupCalendar/app/silent-end.html",  
-                cacheLocation: "localStorage",
-                navigateToLoginRequestUrl: false,
-                endpoints: {
+            // Get the tab context, and use the information to navigate to Azure AD login page
+            microsoftTeams.getContext(function (context) {
+                // ADAL.js configuration
+                let config = {
+                    clientId: appConfig.clientId,
+                    redirectUri: window.location.origin + appConfig.redirectUri, 
+                    cacheLocation: "localStorage",
+                    navigateToLoginRequestUrl: false,
+                    endpoints: {
                         "https://graph.microsoft.com": "https://graph.microsoft.com"
                     }
-            };
-
-            if (loginHint) {
-                config.extraQueryParameter = "scope=openid+profile&login_hint=" + encodeURIComponent(loginHint);
-            } else {
-                config.extraQueryParameter = "scope=openid+profile";
-            }
-
-            config.displayCall = function (urlNavigate) {
-                if (urlNavigate) {
-                    if (config.extraQueryParameters) {
-                        urlNavigate += "&" + config.extraQueryParameters;
-                    }
-                    window.location.replace(urlNavigate);
-                }
-            };
-
-            //let authContext = new AuthenticationContext(config);
-
-            /*
-            let user = authContext.getCachedUser();
-
-            if(user && (user.upn !== userObjectId)) {
-                console.log("user doesn't match, clearing auth cache...");
-                authContext.clearCache();
-            }   
-
-            authContext.acquireToken(config.clientId, function(errDesc, token, err, tokenType) {
-                if(token) {
-                    if (tokenType !== authContext.CONSTANTS.ID_TOKEN) {
-                        console.log("ADAL.js bud: requested id_token, got " + tokenType);
-                        token = authContext.getCachedToken(config.clientId);
-                    }
-                    console.log("token: ", token);
+                };
+                // Setup extra query parameters for ADAL
+                // - openid and profile scope adds profile information to the id_token
+                // - login_hint provides the expected user name
+                if (context.upn) {
+                    config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(context.upn);
                 } else {
-                    console.log("Failed to get ID token silently: " + errDesc);
-                    $("#btnLogin").show();
+                    config.extraQueryParameters = "scope=openid+profile";
                 }
-            });
-            */
-            microsoftTeams.getContext(function (context) {
 
+                // Use a custom displayCall function to add extra query parameters to the url before navigating to it
+                config.displayCall = function (urlNavigate) {
+                    if (urlNavigate) {
+                        if (config.extraQueryParameters) {
+                            urlNavigate += "&" + config.extraQueryParameters;
+                        }
+                        window.location.replace(urlNavigate);
+                    }
+                }
+                // Navigate to the AzureAD login page
                 let authContext = new AuthenticationContext(config);
-                authContext.login(); 
+                authContext.login();
             });
     </script>
 </body>
 </html>
-
