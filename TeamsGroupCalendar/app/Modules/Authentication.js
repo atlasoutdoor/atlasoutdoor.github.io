@@ -3,7 +3,8 @@ const Authuser = (upn,appconfig) => {
         (resolve, reject) => {
             let config = {
                 clientId: appConfig.clientId,
-                redirectUri: window.location.origin + appConfig.redirectUri,       // This should be in the list of redirect uris for the AAD app
+                // This should be in the list of redirect uris for the AAD app
+                redirectUri: window.location.origin + appConfig.redirectUri,
                 cacheLocation: "localStorage",
                 navigateToLoginRequestUrl: false,
                 endpoints: {
@@ -62,9 +63,5 @@ const Authuser = (upn,appconfig) => {
                     }
                 });
             }
-
-
-
-        }
-        );
+        });
 }
