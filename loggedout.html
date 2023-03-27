@@ -50,6 +50,17 @@
               transform: rotate(45deg) translate(20px, 20px);
           }
       }
+      .backdrop {
+        position: absolute;
+        top: -50%;
+        width: 100%;
+        height: auto!important;
+        overflow: hidden;
+        filter: blur(3px);
+      }
+      .card-box {
+        background-color: rgba(255,255,255,0.55);
+      }
     </style>
     <title>Logged Out</title>
   </head>
@@ -70,11 +81,11 @@
       </div>
     </div>
     <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
+      <img src="https://raw.githubusercontent.com/atlasoutdoor/atlasoutdoor.github.io/master/AtlasFence-Building.jpg" alt="" class="backdrop">
       <div class="container">
         <div class="row align-items-center">
-          <div class="col-md-6 col-lg-7">
-          </div>
-          <div class="col-md-6 col-lg-5">
+          <div class="col card-box p-4 text-center">
+            <span class="display-1">You've been logged out!</span>
           </div>
         </div>
       </div>
